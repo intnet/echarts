@@ -21,6 +21,59 @@ define(function (require) {
     require('../component/roamController');
     
     var ecConfig = require('../config');
+    // 地图默认参数
+    ecConfig.map = {
+        zlevel: 0,                  // 一级层叠
+        z: 2,                       // 二级层叠
+        mapType: 'china',   // 各省的mapType暂时都用中文
+        //mapLocation: {
+            // x: 'center' | 'left' | 'right' | 'x%' | {number},
+            // y: 'center' | 'top' | 'bottom' | 'x%' | {number}
+            // width    // 自适应
+            // height   // 自适应
+        //},
+        // mapValueCalculation: 'sum',  // 数值合并方式，默认加和，可选为：
+                                        // 'sum' | 'average' | 'max' | 'min' 
+        mapValuePrecision: 0,           // 地图数值计算结果小数精度
+        showLegendSymbol: true,         // 显示图例颜色标识（系列标识的小圆点），存在legend时生效
+        // selectedMode: false,         // 选择模式，默认关闭，可选single，multiple
+        dataRangeHoverLink: true,
+        hoverable: true,
+        clickable: true,
+        // roam: false,                 // 是否开启缩放及漫游模式
+        // scaleLimit: null,
+        itemStyle: {
+            normal: {
+                // color: 各异,
+                borderColor: 'rgba(0,0,0,0)',
+                borderWidth: 1,
+                areaStyle: {
+                    color: '#ccc'
+                },
+                label: {
+                    show: false,
+                    textStyle: {
+                        color: 'rgb(139,69,19)'
+                    }
+                }
+            },
+            emphasis: {                 // 也是选中样式
+                // color: 各异,
+                borderColor: 'rgba(0,0,0,0)',
+                borderWidth: 1,
+                areaStyle: {
+                    color: 'rgba(255,215,0,0.8)'
+                },
+                label: {
+                    show: false,
+                    textStyle: {
+                        color: 'rgb(100,0,0)'
+                    }
+                }
+            }
+        }
+    };
+
     var ecData = require('../util/ecData');
     var zrUtil = require('zrender/tool/util');
     var zrConfig = require('zrender/config');
@@ -648,7 +701,6 @@ define(function (require) {
             var data;
             var value;
             var queryTarget;
-            var defaultOption = this.ecTheme.map;
             
             var color;
             var font;
@@ -699,7 +751,6 @@ define(function (require) {
                             }));
                         }
                     }
-                    queryTarget.push(defaultOption); // level 1
                     value = data.value;
                 }
                 else {
@@ -709,9 +760,10 @@ define(function (require) {
                     for (var key in mapSeries) {
                         queryTarget.push(series[key]);
                     }
-                    queryTarget.push(defaultOption);
                     value = '-';
                 }
+                this.ecTheme.map && queryTarget.push(this.ecTheme.map); // level 1
+                queryTarget.push(ecConfig);      // level 1
                 
                 // 值域控件控制
                 color = (dataRange && !isNaN(value))
@@ -1095,7 +1147,9 @@ define(function (require) {
                                 this.shapeList[i]._x = this.shapeList[i].style.xEnd = geoAndPos[0];
                                 this.shapeList[i]._y = this.shapeList[i].style.yEnd = geoAndPos[1];
                             }
-                            else if  (this.shapeList[i].type == 'icon') {
+                            else if (this.shapeList[i].type == 'icon'
+                                     || this.shapeList[i].type == 'image'
+                            ) {
                                 geoAndPos = this.geo2pos(mapType, this.shapeList[i]._geo);
                                 this.shapeList[i].style.x = this.shapeList[i].style._x =
                                     geoAndPos[0] - this.shapeList[i].style.width / 2;

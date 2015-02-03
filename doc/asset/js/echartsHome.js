@@ -1,4 +1,4 @@
-var version = '2.1.10';
+var version = '2.2.0';
 var sp = location.href.lastIndexOf('/');
 var ep = location.href.lastIndexOf('.html');
 var curPage = sp < ep ? location.href.slice(sp + 1, ep) : 'index';
@@ -93,10 +93,13 @@ $('#head')[0].innerHTML =
               + '<ul class="dropdown-menu">'
                 + '<li><a href="http://echarts.baidu.com/build/echarts-' + version + '.zip"> echarts-' + version + ' (from Baidu)</a></li>'
                 + '<li><a href="https://github.com/ecomfe/echarts/archive/' + version + '.zip"> echarts-' + version + ' (from GitHub)</a></li>'
+                + '<li><a href="http://echarts.baidu.com/build/echarts-m-1.0.0.zip"> echarts-m-1.0.0 (beta)</a></li>'
+                + '<li><a href="http://echarts.baidu.com/x/build/echarts-x-0.1.0.zip"> echarts-x-0.1.0 </a></li>'
                 + '<li class="divider"></li>'
-                + '<li><a href="http://echarts.baidu.com/doc/changelog'
-                  + (enVersion ? '-en': '') 
-                  + '.html">Changelog</a></li>'
+                + (enVersion 
+                    ? '<li><a href="http://ecomfe.github.io/echarts/doc/changelog-en.html">Changelog</a></li>'
+                    : '<li><a href="http://echarts.baidu.com/doc/changelog.html">Changelog</a></li>'
+                )
               + '</ul>'
             + '</li>'
             //+ '<li><a href="http://echarts.baidu.com/build/echarts-' + version + '.rar">下载</a></li>'
@@ -131,12 +134,12 @@ $('#footer')[0].innerHTML =
      '<div class="container">'
         + '<div class="row" style="padding-bottom:20px;">'
             + '<div class="col-md-3">'
-                + '<p>' + (enVersion ? 'Link' : '友情链接') + '</p>'
+                + '<p>' + (enVersion ? 'Link' : 'ECharts团队出品') + '</p>'
                 + '<ul>'
                     + '<li><a href="http://tushuo.baidu.com/" target="_blank">Baidu 图说</a></li>'
-                    + '<li><a href="http://efe.baidu.com" target="_blank">Baidu EFE</a></li>'
-                    + '<li><a href="http://datavlab.org/" target="_blank">DataV</a></li>'
+                    + '<li><a href="' + (enVersion ? "http://ecomfe.github.io/echarts-x" : 'http://echarts.baidu.com/x/doc') + '" target="_blank">ECharts-X</a></li>'
                     + '<li><a href="http://ecomfe.github.io/zrender/index.html" target="_blank">ZRender</a></li>'
+                    + '<li><a href="https://github.com/pissang/qtek" target="_blank">QTEK</a></li>'
                 + '</ul>'
             + '</div>'
             + '<div class="col-md-3">'
@@ -144,6 +147,7 @@ $('#footer')[0].innerHTML =
                 + '<ul>'
                     + '<li><a href="https://github.com/ecomfe/echarts/blob/master/LICENSE.txt" target="_blank">License</a></li>'
                     + '<li><a href="http://echarts.baidu.com/doc/changelog' + (enVersion ? '-en' : '') + '.html" target="_blank">Changelog</a></li>'
+                    + '<li><a href="http://efe.baidu.com" target="_blank">Baidu EFE</a></li>'
                     + '<li><a href="http://www.oschina.net/p/echarts" target="_blank">' + (enVersion ? 'Open Source China' : '开源中国') + '</a></li>'
                 + '</ul>'
             + '</div>'
